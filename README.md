@@ -8,8 +8,8 @@ formatted 6-sheet Excel workbook; a validator proves it is correct and reproduci
 The process is **subject-agnostic** — point it at any building by supplying that building's
 `comp_data.json`. This repo is the **for-sale port** of
 [highrise-rent-comp-tool](https://github.com/ata2saucy/highrise-rent-comp-tool): the method docs
-here are complete; the generator/validator scripts and a worked example land next, following the
-same pattern.
+and the toolchain (generator + validator + schema) are complete; a worked example (a real subject
+with verified sold comps) lands next, following the same pattern.
 
 ## How it works (any subject)
 
@@ -37,22 +37,28 @@ python validate_workbook.py "<Subject> Sale Comps _vACTIVE.xlsx" comp_data.json
 
 | File | Purpose |
 |---|---|
-| `build_workbook.py` | Workbook generator — owns all structure & formulas *(to be ported)* |
-| `validate_workbook.py` | Validator — structure, zero-error recalc, numpy tie-out, SF coverage *(to be ported)* |
-| `comp_data.schema.json` | Input contract *(to be ported)* |
-| `comp_data.example.json` | Filled example input (template) *(to be ported)* |
+| `build_workbook.py` | Workbook generator — owns all structure & formulas |
+| `validate_workbook.py` | Validator — structure, zero-error recalc, numpy tie-out, SF coverage |
+| `comp_data.schema.json` | Input contract |
+| `comp_data.example.json` | Filled **MOCK** template input (placeholder values — format/toolchain reference, not market data) |
 | `CLAUDE.md` | Operating method / triangulation + verification rules + output spec |
 | `condo_sqft_verification_method_1.md` | SF-verification methodology |
 | `v2 Format Conformance — what was missing + target spec.md` | Format spec |
 | `building_memory/` | Cross-session memory system (stable building facts, never reportable SF) |
-| `requirements.txt` | `openpyxl`, `formulas`, `numpy` *(to be ported)* |
+| `requirements.txt` | `openpyxl`, `formulas`, `numpy` |
 
 ## Worked example — to be added
 
 A complete worked example (a real subject with verified **sold** comps: input JSON → generated
-workbook → green-PASS validation → provenance log) will be added once the scripts are ported.
-Until then, the rent-comp repo's **10 Lower Spadina** example shows the exact end-to-end pattern
-this tool follows.
+workbook → green-PASS validation → provenance log) is still to come; the rent-comp repo's
+**10 Lower Spadina** example shows the exact end-to-end pattern this tool follows. Meanwhile the
+toolchain is testable end-to-end with the mock template:
+
+```bash
+python build_workbook.py comp_data.example.json "Sample Subject Site Sale Comps _vACTIVE.xlsx"
+python validate_workbook.py "Sample Subject Site Sale Comps _vACTIVE.xlsx" comp_data.example.json
+# → PASS — all checks green (structure · zero-error recalc · numpy tie-out · SF coverage)
+```
 
 ## Notes & disclaimers
 
